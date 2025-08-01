@@ -80,33 +80,20 @@ Class User {
 	  $db -> close_cnx();	  	
   }	
   
-   public function redirect_user(Database $db){
-    date_default_timezone_set('Africa/Casablanca');  
-    $this -> check_session();
-    $user_type = $this ->get_type_db($db);
-	if ($user_type === "admin"){ 
-	  $_SESSION['type'] = 'admin'; 
-	  require("admin/accueil.php");  // page   agents
-    }
-	else{
-	  $_SESSION['type'] = 'agent';
-	  require("agent/accueil.php");   //page    admin
-	}  		
-   }
-	public function check_session(){
+   public function check_session(){
 	  if(empty($this ->username)){
 		  $this -> user_logout();}		
-	}
+   }
 	
-	public function check_type_agent (){
+    public function check_type_agent (){
 		$this -> check_session();
 		if ( $_SESSION['type'] != 'agent')$this -> user_logout();
-	}
-	public function check_type_admin (){
+    }
+    public function check_type_admin (){
 		$this -> check_session();
 		if ( $_SESSION['type'] != 'admin')$this -> user_logout();
-	}
-	public function user_logout(): never{
+    }
+    public function user_logout(): never{
 		$_SESSION = []; // Clear session data
 		// 3. Kill session cookie
 		if (ini_get("session.use_cookies")) {
@@ -124,7 +111,7 @@ Class User {
 		session_destroy(); 
 		header("Location: login.php");
 		exit(); 
-	} 
+    } 
 }
 
 ?>
